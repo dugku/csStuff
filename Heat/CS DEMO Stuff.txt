@@ -1,0 +1,77 @@
+need to get coords for the maps
+    -- go onto the map and get the exact pos of each spot for the call out. (make sure it's a rect)
+    -- use get_exactpos for that
+next get predefined bounderies made up for different positions eg. firebox, car, red room etc.
+    -- gotta manually do this but thats okay it take op my time at least.
+get a heatmap up and running
+    
+start collecting stats for different positions kills eg head percent, mollied, etc.
+    -- this maybe the easiest part of the while thing.  
+generate heatmap for the predefined positions and their bounderies (just the outlines).
+start coloring kills and gettings stats.
+
+dust2
+outside long {
+    p1: 100.346130 287.698090 1.515508
+    p2: 447.968506 299.959595 4.944149
+    p3:  747.964172 235.968674 9.031250
+    p4: 758.814636 -395.971558 68.031250
+    p5: 116.031776 -372.452881 2.015634
+}
+long doors {
+    p1: 539.031311 342.934204 1.567197
+    p2: 740.578064 341.583191 0.527790
+    p3: 539.223206 696.461975 1.394940
+    p4: 740.968689 695.227600 76.031250
+}
+outside long {
+    p1: 516.030884 808.031250 1.952864
+    p2: 579.599426 788.440735 1.490594
+    p3: 1271.772217 801.063660 0.038978
+    p4: 1268.956177 1216.311523 0.031945
+    p5: 988.030396 1195.857056 0.512039
+    p6: 991.608826 1085.412476 0.698416
+    p7: 534.135620 1084.006348 1.655199
+}
+blue {
+    p1: 534.395020 1094.046143 1.701973
+    p2: 965.420532 1097.945068 0.868401
+    p3: 964.536804 1195.968628 36.031250
+    p4: 534.042419 1157.227661 2.955454
+}
+side pit {
+    p1: 927.315674 788.737549 9.031250
+    p2: 1227.969849 780.331116 9.031250
+    p3: 1227.968628 215.031250 11.459801
+    p4: 968.031250 215.031342 13.133325
+}
+pit {
+    p1: 1292.029297 777.767090 -4.984802
+    p2: 1574.417114 788.031067 -7.672363
+    p3: 1571.968750 201.031326 -179.261719
+    p4: 1292.030029 201.030350 -180.752197
+}
+pit plateau {
+    p1:
+    p2:
+    p3:
+    p4:
+}
+long {
+
+}
+A Car {
+    
+}
+A ramp {
+    
+}
+A stite
+goose
+ninja
+boost
+elevator
+ct spawn
+a short
+stairs
+catwalk
