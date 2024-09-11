@@ -5,12 +5,12 @@ import (
 	"fmt"
 	dem "github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs"
 	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
-	"io/fs"
 	"log"
 	"math"
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 type vector struct {
@@ -34,14 +34,15 @@ type singleVect struct {
 
 func main() {
 
-	//var positiondata PositionData
-	//JSONfile := ""
-	//posData := jsonLoader(JSONfile, positiondata)
-
+	var positiondata PositionData
+	var JSONfile string
+	var found bool
 	var callouts []string
+	var posData PositionData
+
 	calloutsptr := &callouts
 
-	f, err := os.Open("C:\\Users\\Mike\\Desktop\\csStuff\\Heat\\nouns-fe-vs-lumen-fe-m1-anubis.dem")
+	f, err := os.Open("C:\\Users\\iphon\\OneDrive\\Desktop\\csStuff\\Heat\\mouz-nxt-vs-hotu-m2-dust2.dem")
 	if err != nil {
 		log.Panic("failed to open demo file: ", err)
 	}
@@ -54,24 +55,55 @@ func main() {
 	killcountptr := &killcount
 	// Register handler on kill events
 
+	var wg sync.WaitGroup
+
 	p.RegisterEventHandler(func(e events.MatchStartedChanged) {
-		mapName := p.Header().MapName
+		/*
+			What does all this do
+			something something concurency
+			followed by wtf was my head think when I started this.
+			errrr angry angry sad face.
+		*/
+		wg.Add(1)
+		go func() {
 
-		jsonStuff := "C:\\Users\\Mike\\Desktop\\csStuff\\Heat\\mapsCoords"
+			defer wg.Done()
+			found = false
+			mapName := p.Header().MapName
+			fmt.Println(mapName)
 
-		filepath.WalkDir(jsonStuff, func(path string, d fs.DirEntry, err error) error {
-			if err != nil {
-				return err
-			}
-			if !d.IsDir() {
-				if mapName == path {
-					fmt.Println("here")
+			dir := filepath.Dir("C:\\Users\\iphon\\OneDrive\\Desktop\\csStuff\\Heat\\mapsCoords")
+
+			paths, err := os.ReadDir(dir)
+			check(err)
+
+			for _, entry := range paths {
+				if entry.IsDir() && entry.Name() == "mapsCoords" {
+
+					subdirPath := filepath.Join(dir, entry.Name())
+					subdirItems, err := os.ReadDir(subdirPath)
+					check(err)
+
+					for _, file := range subdirItems {
+
+						maName := strings.Split(file.Name(), ".")
+						if maName[0] == mapName {
+
+							JSONfile = filepath.Join(subdirPath, file.Name())
+							found = true
+						}
+					}
 				}
 			}
-
-			return nil
-		})
+			if found {
+				posData = jsonLoader(JSONfile, positiondata)
+			} else {
+				log.Fatalf("This is bad.")
+			}
+		}()
 	})
+
+	wg.Wait()
 
 	p.RegisterEventHandler(func(e events.Kill) {
 		//calloutsLocal := []string{}
@@ -102,7 +134,7 @@ func main() {
 	fmt.Println(len(*calloutsptr))
 	//fmt.Println(*calloutsptr)
 
-	countsEntries(calloutsptr, "a short")
+	countsEntries(calloutsptr, "long")
 
 }
 
@@ -156,6 +188,10 @@ func jsonLoader(file string, data PositionData) PositionData {
 	check(e)
 
 	return data
+}
+
+func getFileName(filePATH string) string {
+	return strings.Trim(filePATH, filepath.Ext(filePATH))
 }
 
 /*
